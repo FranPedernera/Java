@@ -1,12 +1,14 @@
-package colecciones.lista;
-import colecciones.*;
+package colecciones;
 
-public class ListaEnlazada<T>  {
+
+public class ListaEnlazada<T> implements Lista<T> {
 
     Nodo<T> cabeza ;
+    int cantElem;
 
     public ListaEnlazada(){
         cabeza = null;
+        cantElem = 0;
     }
 
 	/**
@@ -14,12 +16,14 @@ public class ListaEnlazada<T>  {
 	* @param elem el elemento a agregar
 	* @return {@code true} sii el elemento pudo ser agregado
 	*/
+    @Override
 	public boolean agregar(T elem){
 
         Nodo<T> nuevNodo = new Nodo <T> (elem);
         
         if(cabeza.getValor()==null){
             cabeza = nuevNodo;
+            cantElem++;
             return true ;
         }else {
             Nodo<T> aux = cabeza;
@@ -41,7 +45,20 @@ public class ListaEnlazada<T>  {
 	* @return {@code true} sii todos los elementos en {@code otraLista} fueron agregados
 	*/
 	public boolean agregarTodos(Lista<T> otraLista){
-        return true;
+
+        int i = 0;
+
+        if (cabeza ==  null && otraLista.elementos()==0){
+            return false;
+        }else {
+
+            while(i <= otraLista.elementos()){
+                agregar(otraLista.obtener(i));
+                i++;
+            }
+            return i == otraLista.elementos();
+        }
+        
     }
 
     /**
@@ -77,7 +94,7 @@ public class ListaEnlazada<T>  {
                     aux = aux.getNext();
                     i++;
                 }
-                if (indice == i){
+                if (indice ==cantElem ){
                     anterior.setNext(nuevo);
                     nuevo.setNext(aux);
                     
@@ -88,6 +105,132 @@ public class ListaEnlazada<T>  {
         return true;
     }
 
+
+
+
+
+	public T eliminar(int indice){
+        Nodo<T> aux = cabeza;
+        Nodo <T> anterior = null;
+        T elem;
+
+        if (indice < 0 || indice > cantElem){
+            throw new IndexOutOfBoundsException ("Indice ingresado invalido");
+        }
+        int i = 0;
+        while ( aux.getNext()!=null &&  i<indice){
+            anterior = aux;
+            aux.setNext(aux.getNext());
+        }
+
+        if(anterior == null){
+            elem= aux.getValor();
+            cabeza = aux.getNext();
+            cantElem--;
+            return elem;
+        }else{
+            elem = aux.getValor();
+            anterior.setNext(aux.getNext());
+            cantElem--;
+            return elem;
+        }
+
+    }
+
+	/**
+	* Retorna la porción de esta lista entre los índice especificados {@code desdeInd}, inclusivo, y {@code hastaInd}, exclusivo, en una nueva lista.
+	* Si {@code fromInd} es igual a {@code hastaInd} se retorna un a lista vacía.
+	* @param desdeInd el índice inferior, inclusivo
+	* @param hastaInd el índice superior, exclusivo
+	* @return una nueva lista formada con los elementos entre {@code desdeInd} hasta {@code hastaInd - 1} de esta lista
+	* @throws IndexOutOfBoundsException si ({@code fromInd} &lt; {@code 0} || {@code hastaInd} &gt; {@code #elementos()} || {@code desdeInd} &gt; {@code hastaInd})
+	* @see #elementos() 
+	*/
+	public Lista<T> subLista(int desdeInd, int hastaInd){
+        Nodo <T> aux = cabeza;
+        int i = 0;
+        ListaEnlazada<T> nuevaLista = new ListaEnlazada<>();
+
+        if (desdeInd < 0 || hastaInd > cantElem || desdeInd > hastaInd){
+            throw new  IndexOutOfBoundsException("Indices ingresados invalidos");
+        }else {
+            while(aux != null){
+                if (i >= desdeInd && i<= hastaInd){
+                    nuevaLista.agregar(aux.getValor()); 
+                    aux.setNext(aux.getNext());
+                }else{ 
+                aux.setNext(aux.getNext());
+                }
+            } 
+        }
+        return nuevaLista;
+    }
+
+
+   
+	public boolean contiene(T elem){
+        Nodo<T> aux = cabeza;
+        if (aux == null){
+            return false;
+        }{
+            while(aux != null){
+                if(aux.getValor().equals(elem)){
+                    return true;
+                }else{
+                    aux.setNext(aux.getNext());
+                }
+            }
+            return false;
+        }
+    }
+
+    public void vaciar(){
+        cabeza = null;
+    }
+
+
+
+	public int elementos(){
+        return cantElem;
+    }
+	
+    public boolean esVacia(){
+        if (cantElem == 0){
+            return true ;
+        }
+        return false;
+    }
+
+    public boolean repOK(){
+        int contador = 0;
+
+        Nodo <T> aux = cabeza;
+        while (aux !=null){
+            contador ++;
+            aux.setNext(aux.getNext());
+        }
+
+        return contador==cantElem;
+    }
+
+
+    public T obtener(int indice){
+        Nodo <T> aux = cabeza;
+        T val ;
+        int i = 0;
+
+        if(indice < 0 || indice >= cantElem){
+            throw new IndexOutOfBoundsException ("Indice invalido:"); 
+        }{
+            while (aux != null && i != indice){
+                aux.setNext(aux.getNext());
+                i++;
+            }
+            val = aux.getValor();
+            return val;
+        }
+    
+    }
 
 
 }

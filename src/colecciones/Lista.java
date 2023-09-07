@@ -1,4 +1,4 @@
-package colecciones.lista;
+package colecciones;
 
 /**
 * La interface {@code Lista} representa una secuencia de objetos. El usuario de esta interface tiene control de acceso, inserción, y eliminación indexada de elementos.

@@ -1,4 +1,4 @@
-package colecciones.lista;
+package colecciones;
 
 public class Nodo <T> {
     
