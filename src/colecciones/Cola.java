@@ -1,7 +1,7 @@
-package colecciones.cola;
+package colecciones;
 
 
-/**
+/**src/colecciones/Cola.java
 * Esta clase representa una cola de objetos <b>first in first out (FIFO)</b> donde el primer elemento insertado es el primero que se accede.
 * Las operaciones disponibles para esta estructura son:
 * <ul>

@@ -1,4 +1,4 @@
-package colecciones.cola;
+package colecciones;
 
 import java.util.Collection;
 
@@ -50,48 +50,81 @@ public class ColaArregloFijo<T> implements Cola<T> {
 
 	@Override
 	public boolean esVacia() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");	
+		return elementos == 0;
 	}
 
 	@Override
 	public int elementos() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");
+		return elementos;
 	}
 
 	@Override
 	public boolean encolar(T elem) {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");		
+		int j = 0;
+		if (elementos +1 > elementos){
+			return false ;
+		}else {
+			for ( j = elementos; j>=0; j--){
+				arreglo[j+1] = arreglo[j];
+			}
+			if (j == 0){
+				arreglo[j] = elem;
+				elementos++;
+			}
+			return true;
+		}
 	}
 
 	@Override
 	public T desencolar() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");
+		T elem;
+		if(elementos == 0){ 
+			throw new IllegalStateException("La cola se encuentra vacia ");
+		}else {
+			//Casteo mi arreblo de Objet a un tipo T
+			elem = (T) arreglo[elementos];
+			elementos--;
+			return elem;
+		}
 	}
 
 	@Override
 	public T primero() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");	
+		T elem;
+		if (elementos == 0){
+			throw new IllegalStateException("La cola esta vacia .");
+		}else 
+		elem = (T) arreglo[0];
+		return elem;
 	}
 
 	@Override
 	public void vaciar() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");	
+		elementos=0;
 	}
 
 	@Override
 	public boolean repOK() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");	
+		if(elementos<0){
+			return false ;
+		}else 
+		return true;
 	}
 
 	@Override
 	public String toString() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");	
+		String cola = "[";
+		for (int i = 0; i <= elementos; i++){
+			cola += arreglo[i] + "";
+		}
+		cola += "]";
+		return cola;
 	}
 
 	@Override
 	public boolean equals(Object other) {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");	
-	}
+		return true;
+		}
 
 	/**
 	* Permite obtener un elemento del arreglo en un indice determinado realizando el casteo necesario.
